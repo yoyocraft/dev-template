@@ -5,9 +5,9 @@ import com.youyi.common.constant.SymbolConstant;
 import com.youyi.common.type.Env;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,33 +50,33 @@ class ConfigCacheServiceTest {
 
     @Test
     void testGetCacheValue() {
-        Optional<Boolean> booleanOptional = configCacheService.getCacheBoolean("BOOLEAN_KEY");
-        Assertions.assertTrue(booleanOptional.isPresent() && booleanOptional.get());
+        Boolean booleanConfig = configCacheService.getBooleanConfig("BOOLEAN_KEY");
+        Assertions.assertTrue(booleanConfig);
 
-        Optional<List<Integer>> listOptional = configCacheService.getCacheList("LIST_KEY", Integer.class);
+        List<Integer> listConfig = configCacheService.getListConfig("LIST_KEY", Integer.class);
         Assertions.assertTrue(
-            listOptional.isPresent()
-                && listOptional.get().size() == 3
-                && listOptional.get().get(0) == 1
-                && listOptional.get().get(1) == 2
-                && listOptional.get().get(2) == 3
+            listConfig != null
+                && listConfig.size() == 3
+                && listConfig.get(0) == 1
+                && listConfig.get(1) == 2
+                && listConfig.get(2) == 3
         );
 
-        Optional<Map<String, String>> mapOptional = configCacheService.getCacheMap("MAP_KEY", String.class, String.class);
+        Map<String, String> mapConfig = configCacheService.getMapConfig("MAP_KEY", String.class, String.class);
         Assertions.assertTrue(
-            mapOptional.isPresent()
-                && mapOptional.get().size() == 1
-                && "value".equals(mapOptional.get().get("key"))
+            mapConfig != null
+                && mapConfig.size() == 1
+                && "value".equals(mapConfig.get("key"))
         );
 
-        Optional<String> stringOptional = configCacheService.getCacheString("STRING_KEY");
-        Assertions.assertTrue(stringOptional.isPresent() && "STRING_VALUE".equals(stringOptional.get()));
+        String stringConfig = configCacheService.getStringConfig("STRING_KEY");
+        Assertions.assertTrue(StringUtils.isNotBlank(stringConfig) && "STRING_VALUE".equals(stringConfig));
 
-        Optional<Long> longOptional = configCacheService.getCacheLong("LONG_KEY");
-        Assertions.assertTrue(longOptional.isPresent() && longOptional.get() == 123);
+        Long longConfig = configCacheService.getLongConfig("LONG_KEY");
+        Assertions.assertTrue(longConfig != null && longConfig == 123L);
 
-        Optional<TestEntry> entryOptional = configCacheService.getCacheValue("JSON_KEY", TestEntry.class);
-        Assertions.assertTrue(entryOptional.isPresent() && "value".equals(entryOptional.get().getKey()));
+        TestEntry entryConfig = configCacheService.getCacheValue("JSON_KEY", TestEntry.class);
+        Assertions.assertTrue(entryConfig != null && "value".equals(entryConfig.getKey()));
     }
 
     @Getter

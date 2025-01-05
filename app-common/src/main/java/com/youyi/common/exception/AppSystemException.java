@@ -32,6 +32,12 @@ public class AppSystemException extends RuntimeException {
         this.timestamp = System.currentTimeMillis();
     }
 
+    private AppSystemException(ErrorCode errorCode, String message) {
+        super(message);
+        this.code = errorCode.getCode();
+        this.timestamp = System.currentTimeMillis();
+    }
+
     private AppSystemException(ErrorCode errorCode, Throwable cause) {
         super(errorCode.getMessage(), cause);
         this.code = errorCode.getCode();
@@ -49,6 +55,10 @@ public class AppSystemException extends RuntimeException {
 
     public static AppSystemException of(ErrorCode errorCode) {
         return new AppSystemException(errorCode);
+    }
+
+    public static AppSystemException of(ErrorCode errorCode, String message) {
+        return new AppSystemException(errorCode, message);
     }
 
     public static AppSystemException of(ErrorCode errorCode, Throwable cause) {
