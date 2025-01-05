@@ -4,11 +4,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author <a href="https://github.com/yoyocraft">yoyocraft</a>
  * @date 2024/12/27
  */
+@EnableScheduling
 @MapperScan(
     basePackages = {
         "com.youyi.core.config.repository.mapper"
