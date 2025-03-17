@@ -14,4 +14,8 @@ public class SymbolConstant {
     public static final String DOT = ".";
     public static final String SLASH = "/";
     public static final String COLON = ":";
+    public static final String UNDERLINE = "_";
+    public static final String EMPTY = "";
+
+    public static final char NEW_LINE_CHAR = '\n';
 }

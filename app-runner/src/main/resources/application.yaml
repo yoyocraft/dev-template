@@ -1,7 +1,25 @@
+server:
+  port: ${SERVER_PORT}
+  servlet:
+    context-path: ${CONTEXT_PATH}
+
 spring:
   application:
     name: ${APP_NAME}
-
+  output:
+    ansi:
+      enabled: ALWAYS
+  task:
+    scheduling:
+      thread-name-prefix: ${TASK_THREAD_NAME_PREFIX}
+      pool:
+        size: ${TASK_POOL_SIZE}
+      shutdown:
+        await-termination: ${TASK_SHUTDOWN_AWAIT_TERMINATION}
+        await-termination-period: ${TASK_SHUTDOWN_AWAIT_TERMINATION_PERIOD}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -13,3 +31,4 @@ mybatis:
     - classpath:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
+    jdbc-type-for-null: 'NULL'

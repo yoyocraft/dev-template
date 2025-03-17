@@ -1,6 +1,7 @@
 package com.youyi.common.base;
 
-import com.youyi.common.constant.CommonBizState;
+import com.google.gson.annotations.SerializedName;
+import com.youyi.common.type.RequestState;
 import com.youyi.common.type.ErrorCode;
 import com.youyi.common.type.ReturnCode;
 import java.io.Serial;
@@ -19,17 +20,25 @@ public class Result<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @SerializedName("data")
     private T data;
 
     /**
      * {@link ReturnCode}
      */
+    @SerializedName("code")
     private String code;
 
+    @SerializedName("message")
     private String message;
 
+    /**
+     * {@link RequestState}
+     */
+    @SerializedName("bizState")
     private String bizState;
 
+    @SerializedName("timestamp")
     private Long timestamp;
 
     private Result(ErrorCode errorCode, String bizState) {
@@ -71,18 +80,22 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> success() {
-        return new Result<>(ReturnCode.SUCCESS, CommonBizState.SUCCESS.name());
+        return new Result<>(ReturnCode.SUCCESS, RequestState.SUCCESS.name());
     }
 
     public static <T> Result<T> success(T data) {
-        return new Result<>(data, ReturnCode.SUCCESS, CommonBizState.SUCCESS.name());
+        return new Result<>(data, ReturnCode.SUCCESS, RequestState.SUCCESS.name());
     }
 
     public static <T> Result<T> fail(ErrorCode errorCode) {
-        return new Result<>(errorCode, CommonBizState.FAILED.name());
+        return new Result<>(errorCode, RequestState.FAILED.name());
     }
 
     public static <T> Result<T> fail(String code, String message) {
-        return new Result<>(code, message, CommonBizState.FAILED.name());
+        return new Result<>(code, message, RequestState.FAILED.name());
+    }
+
+    public static <T> Result<T> fail(String code, String message, RequestState state) {
+        return new Result<>(code, message, state.name());
     }
 }

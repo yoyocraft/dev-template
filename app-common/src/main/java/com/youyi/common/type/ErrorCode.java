@@ -5,6 +5,7 @@ package com.youyi.common.type;
  * @date 2024/12/27
  */
 public interface ErrorCode {
+
     String getCode();
 
     String getMessage();

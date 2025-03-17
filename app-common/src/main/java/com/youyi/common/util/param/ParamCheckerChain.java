@@ -38,6 +38,16 @@ public class ParamCheckerChain {
         return this;
     }
 
+    public <T> ParamCheckerChain putBatchIf(@Nonnull BooleanSupplier condition, @Nonnull ParamChecker<? super T> checker, Collection<T> params) {
+        if (!condition.getAsBoolean()) {
+            return this;
+        }
+        if (CollectionUtils.isNotEmpty(params)) {
+            params.forEach(param -> paramCheckerChain.add(Pair.of(checker, param)));
+        }
+        return this;
+    }
+
     public <T extends CharSequence> ParamCheckerChain putIfNotBlank(@Nonnull ParamChecker<? super T> checker, T param) {
         if (StringUtils.isNotBlank(param)) {
             paramCheckerChain.add(Pair.of(checker, param));

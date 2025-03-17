@@ -1,0 +1,3 @@
+INSERT INTO `config` (`id`, `gmt_create`, `gmt_modified`, `deleted_at`, `config_key`, `config_value`, `config_type`, `version`, `config_desc`)
+VALUES
+	(1,NOW(),NOW(),0,'RECORD_OP_LOG_THREAD_POOL_CONFIG','{\"corePoolSize\":1,\"maximumPoolSize\":2,\"keepAliveTime\":100000,\"queueCapacity\":1000,\"threadNameFormat\":\"async-record-log-%s\",\"queueType\":\"LINKED_BLOCKING_QUEUE\",\"rejectedHandlerType\":\"CALLER_RUNS_POLICY\",\"timeUnit\":\"MILLISECONDS\"}','JSON',0,'记录操作日志线程池配置');

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youyi.infra.conf.repository.mapper.ConfigMapper">
+
+    <resultMap id="ConfigResultMap" type="com.youyi.infra.conf.repository.po.ConfigPO">
+        <id column="id" property="id"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <result property="deletedAt" column="deleted_at"/>
+        <result property="configKey" column="config_key"/>
+        <result property="configValue" column="config_value"/>
+        <result property="configType" column="config_type"/>
+        <result property="configDesc" column="config_desc"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <sql id="result_cols">
+        id, gmt_create, gmt_modified, deleted_at, config_key, config_value, config_type, version, config_desc
+    </sql>
+
+    <insert id="insert" parameterType="com.youyi.infra.conf.repository.po.ConfigPO">
+        INSERT INTO `config` (config_key, config_value, config_type, version, config_desc)
+        VALUES (#{configKey}, #{configValue}, #{configType}, #{version}, #{configDesc})
+    </insert>
+    <update id="updateConfig" parameterType="com.youyi.infra.conf.repository.po.ConfigPO">
+        UPDATE `config`
+        SET `config_value` = #{configValue}, `version` = version + 1, `config_desc` = #{configDesc}
+        WHERE `config_key` = #{configKey}
+        AND `version` = #{version}
+        AND `deleted_at` = 0
+    </update>
+    <update id="deleteByConfigKey" parameterType="com.youyi.infra.conf.repository.po.ConfigPO">
+        UPDATE `config`
+        SET `deleted_at` = #{deletedAt}
+        WHERE `config_key` = #{configKey}
+        AND `deleted_at` = 0
+    </update>
+    <select id="queryByConfigKey" resultType="com.youyi.infra.conf.repository.po.ConfigPO">
+        SELECT
+        <include refid="result_cols"/>
+        FROM `config`
+        WHERE `config_key` = #{configKey}
+        <if test="!includeDeleted">
+            AND deleted_at = 0
+        </if>
+    </select>
+    <select id="queryAll" resultType="com.youyi.infra.conf.repository.po.ConfigPO">
+        SELECT
+        <include refid="result_cols"/>
+        FROM `config`
+        WHERE 1 = 1
+        <if test="!includeDeleted">
+            AND deleted_at = 0
+        </if>
+    </select>
+    <select id="queryByCursor" resultType="com.youyi.infra.conf.repository.po.ConfigPO">
+        SELECT
+        <include refid="result_cols"/>
+        FROM `config`
+        WHERE id <![CDATA[ > ]]> #{cursor}
+        <if test="!includeDeleted">
+            AND deleted_at = 0
+        </if>
+        ORDER BY id ASC
+        LIMIT #{size}
+    </select>
+
+</mapper>
+
