@@ -1,6 +1,7 @@
 package com.youyi.common.util.param;
 
 import com.youyi.common.exception.AppBizException;
+import com.youyi.common.util.seq.IdSeqUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,6 +60,24 @@ class ParamCheckerChainTest {
         );
         Assertions.assertEquals(INVALID_PARAM, exception.getCode());
     }
+
+    @Test
+    void testSnowflakeIdChecker() {
+        Assertions.assertDoesNotThrow(
+            () -> ParamCheckerChain.newCheckerChain()
+                .put(ParamChecker.snowflakeIdChecker(), IdSeqUtil.genSysTaskId())
+                .validateWithThrow()
+        );
+    }
+
+    @Test
+    void testEmailChecker() {
+        Assertions.assertDoesNotThrow(
+            () -> ParamCheckerChain.newCheckerChain()
+                .put(ParamChecker.emailChecker(), "test@test.com")
+                .validateWithThrow()
+        );
+    }
 }
 
-//Generated with love by TestMe :) Please raise issues & feature requests at: https://weirddev.com/forum#!/testme
+// Generated with love by TestMe :) Please raise issues & feature requests at: https://weirddev.com/forum#!/testme

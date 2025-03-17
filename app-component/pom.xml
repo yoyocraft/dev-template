@@ -17,16 +17,12 @@
         <dependency>
             <groupId>com.youyi</groupId>
             <artifactId>app-common</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.youyi</groupId>
             <artifactId>app-infra</artifactId>
-        </dependency>
-
-        <!-- Mapstruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- Lombok -->

@@ -1,18 +1,27 @@
 package com.youyi.common.util;
 
+import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.Strictness;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.nio.charset.Charset;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
 
@@ -30,28 +39,20 @@ public class GsonUtil {
     private static final Gson PRETTY_GSON;
 
     static {
-        TypeAdapter<Object> customizedAdapter = new CustomizedTypeAdapter();
-        GSON = new GsonBuilder()
-            .registerTypeAdapter(new TypeToken<Map>() {
-            }.getType(), customizedAdapter)
-            .registerTypeAdapter(new TypeToken<HashMap>() {
-            }.getType(), customizedAdapter)
-            .registerTypeAdapter(new TypeToken<Map<String, Object>>() {
-            }.getType(), customizedAdapter)
-            .registerTypeAdapter(new TypeToken<HashMap<String, Object>>() {
-            }.getType(), customizedAdapter)
-            .registerTypeAdapter(new TypeToken<List>() {
-            }.getType(), customizedAdapter)
-            .registerTypeAdapter(new TypeToken<ArrayList>() {
-            }.getType(), customizedAdapter)
-            .registerTypeAdapter(new TypeToken<List<Object>>() {
-            }.getType(), customizedAdapter)
-            .registerTypeAdapter(new TypeToken<ArrayList<Object>>() {
-            }.getType(), customizedAdapter)
+        GSON = Converters.registerAll(new GsonBuilder())
+            .registerTypeAdapter(File.class, new FileAdapter())
+            .registerTypeAdapter(Charset.class, new CharsetAdapter())
             .setStrictness(Strictness.LENIENT)
             .create();
 
-        PRETTY_GSON = new GsonBuilder().setPrettyPrinting().create();
+        PRETTY_GSON = Converters.registerAll(new GsonBuilder())
+            .registerTypeAdapter(File.class, new FileAdapter())
+            .registerTypeAdapter(Charset.class, new CharsetAdapter())
+            .setPrettyPrinting().create();
+
+    }
+
+    private GsonUtil() {
     }
 
     public static String toJson(Object obj) {
@@ -75,6 +76,13 @@ public class GsonUtil {
             return null;
         }
         return GSON.fromJson(json, type);
+    }
+
+    public static <T> T fromJson(String json, @Nonnull TypeToken<T> typeToken) {
+        if (json == null) {
+            return null;
+        }
+        return GSON.fromJson(json, typeToken);
     }
 
     public static <T> T fromJson(String json, @Nonnull Class<T> clazz) {
@@ -133,6 +141,31 @@ public class GsonUtil {
     public static JsonObject toJsonObject(Object obj) {
         JsonElement jsonElement = GSON.toJsonTree(obj);
         return jsonElement.getAsJsonObject();
+    }
+
+    public static class FileAdapter implements JsonSerializer<File>, JsonDeserializer<File> {
+
+        @Override
+        public JsonElement serialize(File src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.getPath());
+        }
+
+        @Override
+        public File deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return new File(json.getAsString());
+        }
+    }
+
+    private static class CharsetAdapter extends TypeAdapter<Charset> {
+        @Override
+        public void write(JsonWriter out, Charset value) throws IOException {
+            out.value(value.name());
+        }
+
+        @Override
+        public Charset read(JsonReader in) throws IOException {
+            return Charset.forName(in.nextString());
+        }
     }
 
 }

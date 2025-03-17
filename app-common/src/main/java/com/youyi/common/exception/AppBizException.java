@@ -31,6 +31,12 @@ public class AppBizException extends RuntimeException {
         this.timestamp = System.currentTimeMillis();
     }
 
+    private AppBizException(ErrorCode errorCode, String message) {
+        super(message);
+        this.code = errorCode.getCode();
+        this.timestamp = System.currentTimeMillis();
+    }
+
     private AppBizException(ErrorCode errorCode, Throwable cause) {
         super(errorCode.getMessage(), cause);
         this.code = errorCode.getCode();
@@ -48,6 +54,10 @@ public class AppBizException extends RuntimeException {
 
     public static AppBizException of(ErrorCode errorCode) {
         return new AppBizException(errorCode);
+    }
+
+    public static AppBizException of(ErrorCode errorCode, String message) {
+        return new AppBizException(errorCode, message);
     }
 
     public static AppBizException of(ErrorCode errorCode, Throwable cause) {
