@@ -47,7 +47,7 @@ public class ConfigHelper {
 
     public void updateConfig(ConfigDO configDO) {
         ConfigPO configPO = configDO.buildToUpdateOrDeletePO();
-        configRepository.updateConfigValueAndEnv(configPO);
+        configRepository.updateConfigValue(configPO);
     }
 
     public void deleteConfig(ConfigDO configDO) {
