@@ -10,14 +10,12 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import static com.youyi.infra.localmsg.core.LocalMessageService.RETRY_INTERVAL_MINUTES;
 import static com.youyi.infra.localmsg.util.LocalMessageUtil.offsetTimestamp;
@@ -26,8 +24,8 @@ import static com.youyi.infra.localmsg.util.LocalMessageUtil.offsetTimestamp;
  * @author <a href="https://github.com/yoyocraft">yoyocraft</a>
  * @date 2025/03/16
  */
-@Aspect
-@Component
+// @Aspect
+// @Component
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class LocalMessageAspect {

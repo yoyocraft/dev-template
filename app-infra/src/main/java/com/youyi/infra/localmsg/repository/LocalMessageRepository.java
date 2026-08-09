@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -19,7 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
  * @author <a href="https://github.com/yoyocraft">yoyocraft</a>
  * @date 2025/03/30
  */
-@Repository
+// @Repository
 @RequiredArgsConstructor
 public class LocalMessageRepository extends BaseRepository {
 

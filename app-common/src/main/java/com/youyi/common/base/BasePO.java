@@ -1,6 +1,5 @@
 package com.youyi.common.base;
 
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,9 +15,9 @@ public abstract class BasePO {
 
     private Long id;
 
-    private LocalDateTime gmtCreate;
+    private Long gmtCreate;
 
-    private LocalDateTime gmtModified;
+    private Long gmtModified;
 
     private Long deletedAt;
 

@@ -2,7 +2,6 @@ package com.youyi.domain.conf.model;
 
 import com.youyi.infra.conf.core.ConfigType;
 import com.youyi.infra.conf.repository.po.ConfigPO;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,8 +22,8 @@ public class ConfigDO {
     private Integer version;
     private String configDesc;
     private Long deletedAt;
-    private LocalDateTime gmtCreate;
-    private LocalDateTime gmtModified;
+    private Long gmtCreate;
+    private Long gmtModified;
 
     private Long cursor;
     private Integer size;

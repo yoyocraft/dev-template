@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import static com.youyi.infra.localmsg.util.LocalMessageUtil.offsetTimestamp;
@@ -30,7 +29,7 @@ import static com.youyi.infra.localmsg.util.LocalMessageUtil.offsetTimestamp;
  * @author <a href="https://github.com/yoyocraft">yoyocraft</a>
  * @date 2025/03/16
  */
-@Component
+// @Component
 @RequiredArgsConstructor
 public class LocalMessageService {
 

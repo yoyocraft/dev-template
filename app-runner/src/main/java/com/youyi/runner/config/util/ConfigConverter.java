@@ -22,7 +22,7 @@ public interface ConfigConverter {
     ConfigConverter CONFIG_CONVERTER = Mappers.getMapper(ConfigConverter.class);
 
     @Mappings({
-        @Mapping(target = "lastModified", expression = "java(CommonOperationUtil.date2Timestamp(configDO.getGmtModified()))"),
+        @Mapping(target = "lastModified", source = "gmtModified"),
         @Mapping(target = "configType", expression = "java(configDO.getConfigType().name())"),
         @Mapping(target = "deleted", expression = "java(configDO.getDeletedAt() != 0L)")
     })
